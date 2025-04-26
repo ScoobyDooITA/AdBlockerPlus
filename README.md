@@ -43,7 +43,7 @@ To install and run AdBlocker Plus JavaScript, follow these simple steps:
 
     ```javascript
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', '[https://raw.githubusercontent.com/ScoobyDooITA/AdBlockerPlus/refs/heads/main/](https://raw.githubusercontent.com/ScoobyDooITA/AdBlockerPlus/refs/heads/main/)<version>.js');
+    xhr.open('GET', 'https://raw.githubusercontent.com/ScoobyDooITA/AdBlockerPlus/refs/heads/main/AdBlockerPlus.<version>.min.js');
 
     xhr.onload = function() {
       if (xhr.status >= 200 && xhr.status < 300) {
@@ -61,7 +61,7 @@ To install and run AdBlocker Plus JavaScript, follow these simple steps:
     xhr.send();
     ```
 
-    **Important:** Replace `<version>` with the specific JavaScript filename containing the latest version of your ad blocker (for example, `adblocker.min.js` or `v1.0.js`). Ensure that the path to the file in your GitHub repository is correct.
+    **Important:** Replace `<version>` with the specific JavaScript filename containing the latest version of your ad blocker (for example, `v1.0` or `v1.1`). Ensure that the path to the file in your GitHub repository is correct.
 
 3.  **Press the `Enter` key** to execute the code.
 
