@@ -72,7 +72,7 @@ function adBlock() {
         'ins.adsbygoogle',
     ];
 
-    const adScriptDomains = stringToList(`
+    const adScriptDomains = `
         googlesyndication.com
         doubleclick.net
         adservice.google.com
@@ -13423,7 +13423,7 @@ function adBlock() {
         www.stickylogic.com
         www.winadiscount.com
         www.winaproduct.com
-        `.split("\n"));
+        `.split("\n");
 
     const adIframeDomains = [
         'googleadsframe.com',
