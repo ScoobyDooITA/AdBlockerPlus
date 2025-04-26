@@ -1,0 +1,2 @@
+# AdBlockerPlus
+Simplex JavaScript Adblocker
