@@ -63,6 +63,10 @@ To install and run AdBlocker Plus JavaScript, follow these simple steps:
 
     **Important:** Replace `<version>` with the specific JavaScript filename containing the latest version of your ad blocker (for example, `v1.0` or `v1.1`). Ensure that the path to the file in your GitHub repository is correct.
 
+**Advanced Protection and Fullscreen + Wakelock Modes**
+
+To activate the Advanced Protection and Fullscreen + Wakelock Modes, modify the variables `advanced` and `fullscreenEnabled` from `false` to `true`.
+
 3.  **Press the `Enter` key** to execute the code.
 
 Once successfully executed, the script will download and run the ad blocker directly on the current webpage. Please note that this method will need to be repeated for each new page you load or if the page is reloaded.
