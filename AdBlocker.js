@@ -23,8 +23,6 @@ function adBlock() {
         'iframe[src*=".g"]',
         'iframe[src*="doubleclick.net"]',
         'iframe[src*="googlesyndication.com"]',
-        '.image-container',
-        '#image-container',
     ];
 
     const filterList = [
@@ -13445,7 +13443,7 @@ function adBlock() {
             }
         });
     });
-
+    if(advanced) {
     const allElementsWithText = document.querySelectorAll('*');
     allElementsWithText.forEach(element => {
         if (element.childNodes.length > 0) {
@@ -13475,7 +13473,7 @@ function adBlock() {
             }
         }
     });
-    if (advanced) {
+    
         const advertisementScripts = document.querySelectorAll('script[src]');
         advertisementScripts.forEach(script => {
             const src = script.getAttribute('src');
