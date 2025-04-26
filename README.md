@@ -1,4 +1,4 @@
-#AdBlocker Plus JavaScript
+<h1>AdBlocker Plus JavaScript</h1>
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Latest Release](https://img.shields.io/github/v/release/ScoobyDooITA/AdBlockerPlus)](https://github.com/ScoobyDooITA/AdBlockerPlus/releases/latest)
