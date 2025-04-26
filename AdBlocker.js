@@ -23,8 +23,6 @@ function adBlock() {
         'iframe[src*=".g"]',
         'iframe[src*="doubleclick.net"]',
         'iframe[src*="googlesyndication.com"]',
-        '.image-container',
-        '#image-container',
     ];
 
     const filterList = [
