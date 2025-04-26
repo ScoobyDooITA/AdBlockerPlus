@@ -1,0 +1,362 @@
+function adBlock() {
+  const selectorsToRemove = [
+    '.ad',
+    '.advert',
+    '.adsbygoogle',
+    'iframe[src*="ad"]',
+    'div[id*="ad"]',
+    'div[class*="ad"]',
+    'a[href*="ad"]',
+    '[data-ad-client]',
+    '[data-ad-slot]',
+    '#advertisement',
+    '#sponsored',
+    '.banner',
+    '.promoted',
+    'a[href*="googleads"]',
+    'a[href*=".g"]',
+    'a[href*="doubleclick.net"]',
+    'a[href*="googlesyndication.com"]',
+    'iframe[src*="googleads"]',
+    'iframe[src*=".g"]',
+    'iframe[src*="doubleclick.net"]',
+    'iframe[src*="googlesyndication.com"]',
+    '.image-container',
+    '#image-container',
+    'p',
+    'h2',
+    'h3#preparing',
+    'google_ads',
+    'rewardedid'
+  ];
+
+  const filterList = [
+    '.top-leaderboard',
+    '#sidebar-ad-container',
+    '.inline-advertisement',
+    'div[data-test*="ad-slot"]',
+    '.gpt-ad',
+    '.ad-unit',
+    '#ad-wrapper',
+    '.advertisement-container',
+    '.native-ad',
+    '.outbrain-widget',
+    '.taboola-container',
+    '.yandex-direct',
+    'iframe[id*="ads"]',
+    'div[id*="banner"]',
+    'div[class*="banner"]',
+    'a[rel="sponsored"]',
+    '.premium-content',
+    '.paywall',
+    '.sticky-ad',
+    '.floating-ad',
+    'div[style*="position: fixed;"]',
+    'div[style*="z-index: 9999;"]',
+    '.modal-advertisement',
+    '.popup-ad',
+    'div[aria-label*="advertisement"]',
+    'div[role="banner"][aria-label]',
+    '.ad-article',
+    '.sponsor-logo',
+    'amp-ad',
+    '#google_image_div',
+    '.video-ad',
+    'div[id^="dfp_"]',
+    'div[class^="dfp_"]',
+    'iframe[src*="pubmatic"]',
+    'iframe[src*="rubiconproject"]',
+    'iframe[src*="criteo"]',
+    'iframe[src*="yieldmo"]',
+    'div[data-google-query-id]',
+    '.ad-choices',
+    'a[href*="/adclick/"]',
+    'div[data-ad-type]',
+    'ins.adsbygoogle',
+  ];
+
+  const adScriptDomains = [
+    'googlesyndication.com',
+    'doubleclick.net',
+    'adservice.google.com',
+    'googleads.g.doubleclick.net',
+    'pubmatic.com',
+    'rubiconproject.com',
+    'criteo.com',
+    'yieldmo.com',
+    'amazon-adsystem.com',
+    'openx.net',
+    'indexww.com',
+  ];
+
+  const adIframeDomains = [
+    'googleadsframe.com',
+    'adform.net',
+    'adsrvr.net',
+    'advertising.com',
+  ];
+
+  const allSelectorsToRemove = [...selectorsToRemove, ...filterList];
+
+  allSelectorsToRemove.forEach(selector => {
+    const elementsToRemove = document.querySelectorAll(selector);
+    elementsToRemove.forEach(element => {
+      if (element && element.parentNode) {
+        element.parentNode.removeChild(element);
+      } else if (element) {
+        element.remove();
+      }
+    });
+  });
+
+  const allElementsWithText = document.querySelectorAll('*');
+  allElementsWithText.forEach(element => {
+    if (element.childNodes.length > 0) {
+      element.childNodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE && node.textContent.includes('Enter')) {
+          node.textContent = node.textContent.replace(/Enter/g, 'Start');
+        } else if (node.nodeType === Node.COMMENT_NODE && node.textContent.includes('onworks.net_1200x300_top_billboard responsive')) {
+          if (element.parentNode) {
+            element.parentNode.removeChild(element);
+          } else {
+            element.remove();
+          }
+        }
+      });
+    } else if (element.textContent && element.textContent.includes('Enter')) {
+      element.textContent = element.textContent.replace(/Enter/g, 'Start');
+    }
+
+    if (element.tagName === 'A') {
+      const linkTextLower = element.textContent.toLowerCase();
+      if (linkTextLower.includes('annuncio') || linkTextLower.includes('pubblicità') || linkTextLower.includes('sponsored link') || linkTextLower.includes('sponsorizzato')) {
+        if (element.parentNode) {
+          element.parentNode.removeChild(element);
+        } else {
+          element.remove();
+        }
+      }
+    }
+  });
+
+  const advertisementScripts = document.querySelectorAll('script[src]');
+  advertisementScripts.forEach(script => {
+    const src = script.getAttribute('src');
+    if (src && adScriptDomains.some(domain => src.includes(domain))) {
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      } else {
+        script.remove();
+      }
+    }
+  });
+
+  const iframes = document.querySelectorAll('iframe[src]');
+  iframes.forEach(iframe => {
+    const src = iframe.getAttribute('src');
+    if (src && adIframeDomains.some(domain => src.includes(domain))) {
+      if (iframe.parentNode) {
+        iframe.parentNode.removeChild(iframe);
+      } else {
+        iframe.remove();
+      }
+    }
+  });
+
+  const elementsWithDisplayNone = document.querySelectorAll('*[style*="display: none;"]');
+  elementsWithDisplayNone.forEach(element => {
+    const classes = element.className.toLowerCase();
+    const id = element.id.toLowerCase();
+    const tagName = element.tagName.toLowerCase();
+    const href = element.getAttribute('href') ? element.getAttribute('href').toLowerCase() : '';
+    const src = element.getAttribute('src') ? element.getAttribute('src').toLowerCase() : '';
+    let containsOnworksComment = false;
+    element.childNodes.forEach(node => {
+      if (node.nodeType === Node.COMMENT_NODE && node.textContent.includes('onworks.net_1200x300_top_billboard responsive')) {
+        containsOnworksComment = true;
+      }
+    });
+    const textContentLower = element.textContent ? element.textContent.toLowerCase() : '';
+    const matchesFilterList = filterList.some(selector => element.matches(selector));
+
+    const backgroundImage = window.getComputedStyle(element).backgroundImage;
+    const hasAdImage = backgroundImage && /url\(.*?\.(jpg|jpeg|png|gif).*?\)/i.test(backgroundImage) && (backgroundImage.includes('ad') || backgroundImage.includes('advert'));
+
+    if (classes.includes('ad') || classes.includes('advert') || id.includes('ad') || id.includes('advert') ||
+        href.includes('googleads') || href.includes('.g') || href.includes('doubleclick.net') || href.includes('googlesyndication.com') ||
+        src.includes('googleads') || src.includes('.g') || src.includes('doubleclick.net') || src.includes('googlesyndication.com') ||
+        classes.includes('image-container') || id === 'image-container' || tagName === 'p' || tagName === 'h2' || (tagName === 'h3' && id === 'preparing') || containsOnworksComment || textContentLower.includes('enter') || matchesFilterList || hasAdImage) {
+      if (element.parentNode) {
+        element.parentNode.removeChild(element);
+      } else if (tagName === 'iframe') {
+        element.remove();
+      } else if (textContentLower.includes('enter')) {
+        element.textContent = element.textContent.replace(/Enter/gi, 'Start');
+      }
+    } else if (textContentLower.includes('enter')) {
+      element.textContent = element.textContent.replace(/Enter/gi, 'Start');
+    }
+  });
+
+  const observer = new MutationObserver(mutationsList => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+        mutation.addedNodes.forEach(node => {
+          if (node instanceof Element) {
+            if (allSelectorsToRemove.some(selector => node.matches(selector))) {
+              if (node.parentNode) {
+                node.parentNode.removeChild(node);
+              } else {
+                node.remove();
+              }
+            }
+            if (node.textContent && node.textContent.includes('Enter')) {
+              node.textContent = node.textContent.replace(/Enter/g, 'Start');
+            }
+            node.childNodes.forEach(childNode => {
+              if (childNode.nodeType === Node.TEXT_NODE && childNode.textContent.includes('Enter')) {
+                childNode.textContent = childNode.textContent.replace(/Enter/g, 'Start');
+              } else if (childNode.nodeType === Node.COMMENT_NODE && childNode.textContent.includes('onworks.net_1200x300_top_billboard responsive')) {
+                if (node.parentNode) {
+                  node.parentNode.removeChild(node);
+                } else {
+                  node.remove();
+                }
+              }
+            });
+
+            if (node.tagName === 'IFRAME' && node.src) {
+              try {
+                const iframeDocument = node.contentDocument || node.contentWindow.document;
+                if (iframeDocument && iframeDocument.body) {
+                  const iframeBody = iframeDocument.body;
+                  const iframeSelectorsToRemove = [...allSelectorsToRemove, 'body'];
+                  iframeSelectorsToRemove.forEach(selector => {
+                    iframeBody.querySelectorAll(selector).forEach(iframeElement => {
+                      if (iframeElement && iframeElement.parentNode) {
+                        iframeElement.parentNode.removeChild(iframeElement);
+                      } else if (iframeElement) {
+                        iframeElement.remove();
+                      }
+                    });
+                  });
+                  iframeBody.querySelectorAll('*').forEach(iframeElement => {
+                    if (iframeElement.childNodes.length > 0) {
+                      iframeElement.childNodes.forEach(iframeNode => {
+                        if (iframeNode.nodeType === Node.TEXT_NODE && iframeNode.textContent.includes('Enter')) {
+                          iframeNode.textContent = iframeNode.textContent.replace(/Enter/g, 'Start');
+                        }
+                      });
+                    } else if (iframeElement.textContent && iframeElement.textContent.includes('Enter')) {
+                      iframeElement.textContent = iframeElement.textContent.replace(/Enter/g, 'Start');
+                    }
+                  });
+                }
+              } catch (error) {
+                console.warn('Impossibile accedere all\'iframe:', node.src, error);
+              }
+            }
+          }
+        });
+      }
+    }
+  });
+
+  observer.observe(document.body, { subtree: true, childList: true });
+
+  setTimeout(() => {
+    const allElements = document.querySelectorAll('*');
+    allElements.forEach(element => {
+      if (element.offsetWidth <= 1 && element.offsetHeight <= 1 && !element.childNodes.length && !element.textContent.trim()) {
+        if (element.parentNode) {
+          element.parentNode.removeChild(element);
+        } else {
+          element.remove();
+        }
+      } else if (window.getComputedStyle(element).visibility === 'hidden' && window.getComputedStyle(element).opacity === '0' && (element.offsetWidth > 1 || element.offsetHeight > 1)) {
+        const classes = element.className.toLowerCase();
+        const id = element.id.toLowerCase();
+        if (classes.includes('ad') || classes.includes('advert') || id.includes('ad') || id.includes('advert')) {
+          if (element.parentNode) {
+            element.parentNode.removeChild(element);
+          } else {
+            element.remove();
+          }
+        }
+      }
+    });
+  }, 2000);
+}
+
+window.onload = adBlock;
+setInterval(adBlock, 3000);
+function requestFullscreen() {
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  } else if (document.documentElement.mozRequestFullScreen) { /* Firefox */
+    document.documentElement.mozRequestFullScreen();
+  } else if (document.documentElement.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+    document.documentElement.webkitRequestFullscreen();
+  } else if (document.documentElement.msRequestFullscreen) { /* IE/Edge */
+    document.documentElement.msRequestFullscreen();
+  }
+}
+
+let wakeLock = null;
+
+async function requestWakeLock() {
+  try {
+    wakeLock = await navigator.wakeLock.request('screen');
+    console.log('Wake Lock attivo!');
+    wakeLock.addEventListener('release', () => {
+      console.log('Wake Lock rilasciato.');
+    });
+  } catch (err) {
+    console.error(`${err.name}, ${err.message}`);
+  }
+}
+
+function addLatencyCounter() {
+  const latencySpan = document.createElement('span');
+  latencySpan.id = 'latencyCounter';
+  latencySpan.style.position = 'fixed';
+  latencySpan.style.top = '30px';
+  latencySpan.style.right = '10px';
+  latencySpan.style.color = '#3480eb';
+  document.body.appendChild(latencySpan);
+}
+
+async function updateLatency() {
+  const latencySpan = document.getElementById('latencyCounter');
+  if (latencySpan) {
+    const startTime = performance.now();
+    try {
+      const response = await fetch('https://example.com/', {
+        method: 'HEAD',
+        cache: 'no-cache'
+      });
+      const endTime = performance.now();
+      const latency = Math.round(endTime - startTime);
+      latencySpan.textContent = `ping: ${latency}ms`;
+    } catch (error) {
+      console.error('Errore durante la misurazione della latenza:', error);
+      latencySpan.textContent = 'ping: Errore';
+    }
+  }
+}
+
+// Richiedi la modalità fullscreen
+requestFullscreen();
+
+// Richiedi il Wake Lock
+if ('wakeLock' in navigator) {
+  requestWakeLock();
+} else {
+  console.log('Wake Lock API non supportata dal browser.');
+}
+
+// Aggiungi lo span per la latenza
+addLatencyCounter();
+
+// Aggiorna la latenza ogni 5 secondi
+setInterval(updateLatency, 5000);
