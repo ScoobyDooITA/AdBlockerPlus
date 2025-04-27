@@ -112,15 +112,7 @@ For support, questions, or bug reports, you can:
 
 ## License
 
-This project is licensed under the [Name of License] License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgements
-
-We would like to thank the following projects and their communities for their valuable contributions:
-
-* [Name of Project 1] ([link to the project]) - For [reason for acknowledgement].
-* [Name of Project 2] ([link to the project]) - For [reason for acknowledgement].
-* [Other acknowledgements, if any].
+This project is licensed under the Mit License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
