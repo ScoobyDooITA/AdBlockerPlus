@@ -1,4 +1,3 @@
-
 <div style="display: flex; flex-direction: row;margin-bottom:20px">
 <img src="/logo.png" style="width:100px;height:100px">
 <h1 style="position:relative;top:30px;left:20px">AdBlocker Plus JavaScript</h1>
