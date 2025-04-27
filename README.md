@@ -1,5 +1,8 @@
-<img style="width:100px;height:100px" src="/logo.png">
-<h1>AdBlocker Plus JavaScript</h1>
+
+<div style="display: flex; flex-direction: row;margin-bottom:20px">
+<img src="/logo.png" style="width:100px;height:100px">
+<h1 style="position:relative;top:30px;left:20px">AdBlocker Plus JavaScript</h1>
+</div>
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Latest Release](https://img.shields.io/github/v/release/ScoobyDooITA/AdBlockerPlus)](https://github.com/ScoobyDooITA/AdBlockerPlus/releases/latest)
