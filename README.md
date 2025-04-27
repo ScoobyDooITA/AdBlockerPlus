@@ -28,7 +28,6 @@
 * **Powerful Ad Blocking:** Effectively blocks various types of intrusive advertisements (banners, pop-ups, video ads, etc.).
 * **Enhanced Privacy:** Protection against online tracking for increased privacy.
 * **Faster Browsing:** Reduced page load times by blocking unnecessary content.
-* **[Add other unique features of your ad blocker].**
 * **Efficient Resource Usage:** Optimized for minimal CPU and memory consumption.
 * **Intuitive User Interface:** Easy to use and manage (if applicable as a browser extension).
 * **Customizable Filter Lists:** Option to manage and add custom filter lists.
