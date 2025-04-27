@@ -109,8 +109,6 @@ Please ensure you follow the [contribution guidelines](CONTRIBUTING.md) (if pres
 For support, questions, or bug reports, you can:
 
 * Open an issue on the GitHub repository: [https://github.com/ScoobyDooITA/AdBlockerPlus/issues](https://github.com/ScoobyDooITA/AdBlockerPlus/issues)
-* Contact us via email at [your support email].
-* Visit our [support/FAQ page] (if present).
 
 ## License
 
